@@ -1,0 +1,7 @@
+{
+  "name": "lab-1-solution",
+  "scripts": {
+    "start": "node server.js",
+    "validate": "node validate.js"
+  }
+}
