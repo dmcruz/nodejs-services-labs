@@ -1,17 +1,16 @@
 'use strict'
+const { promisify } = require('util')
 const { bicycle } = require('../../model')
-
+const read = promisify(bicycle.read)
 module.exports = async(fastify, opts) => {
+  const { notFound } = fastify.httpErrors
   fastify.get('/:id', async (req, res) => {
     const {id} = req.params
-    bicycle.read(id, (err, result) => {
-      if(err) {
-        if (err.message === 'not found') res.notFound()
-        else res.send(err)
-      } else {
-        res.send(result)
-      }
-    })
-    await res
+    try {
+      return await read(id)
+    } catch(err) {
+      if (err.message === 'not found') throw notFound()
+      throw err
+    }
   })
 }
