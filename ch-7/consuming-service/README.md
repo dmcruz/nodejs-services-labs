@@ -19,7 +19,7 @@ mkdir consuming-service
 cd consuming-service
 npm init fastify
 npm install
-npm install got
+npm install got@^11
 
 ## Step 2: change routes/root.js
 
