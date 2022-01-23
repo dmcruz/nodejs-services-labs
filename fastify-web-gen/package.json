@@ -21,7 +21,9 @@
     "fastify-plugin": "^3.0.0",
     "fastify-sensible": "^3.1.0",
     "handlebars": "^4.7.7",
-    "point-of-view": "^5.0.0"
+    "point-of-view": "^5.0.0",
+    "sequelize": "^6.14.0",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
     "tap": "^15.0.9"

@@ -93,7 +93,7 @@ Another way
 
 ### Generator
 
-Check ch-4/fastify-web-gen
+Check /fastify-web-gen
 
 1. Creating new project:
 
@@ -108,17 +108,12 @@ npm install
 
 ```
 cd fastify-web-gen
-npm init fastify --integrate
-```
-
-for npm v7 above will have an issue, use this command instead:
-```
 npm init fastify -- --integrate
 ```
 
 ### Static content
 
-Check ch-4/fastify-web-gen
+Check /fastify-web-gen
 
 Install:
 
@@ -136,7 +131,7 @@ fastify.register(require('fastify-static'), {
 
 ### Template Views
 
-Check ch-4/fastify-web-gen
+Check /fastify-web-gen
 
 #### 1. Install 
 
@@ -212,6 +207,8 @@ module.exports = async function (fastify, opts) {
 ```
 
 ### RESTful JSON Services
+
+Check model.js and /routes/rest/players
 
 ### Route Validation 
 
