@@ -1,4 +1,7 @@
 # Notes
+
+Review notes for JSNSD
+
 - [Notes](#notes)
   - [Core Http](#core-http)
     - [Basic code](#basic-code)
@@ -12,6 +15,10 @@
       - [2. Create view](#2-create-view)
     - [Streaming Content](#streaming-content)
     - [RESTful JSON Services](#restful-json-services)
+    - [Consuming and Aggregating Services](#consuming-and-aggregating-services)
+    - [Proxying HTTP Requests](#proxying-http-requests)
+      - [1. Proxying a url](#1-proxying-a-url)
+      - [2. Proxying upstream (all routes)](#2-proxying-upstream-all-routes)
     - [Route Validation](#route-validation)
       - [Post body schema validation](#post-body-schema-validation)
       - [Params schema validation](#params-schema-validation)
@@ -46,6 +53,7 @@ server.listen(PORT)
 ```
 
 Execute: `node server.js`
+
 Access: http://localhost:3000
 
 ### Handling routes
@@ -93,7 +101,7 @@ Another way
 
 ### Generator
 
-Check /fastify-web-gen
+Check `/fastify-web-gen`
 
 1. Creating new project:
 
@@ -113,7 +121,7 @@ npm init fastify -- --integrate
 
 ### Static content
 
-Check /fastify-web-gen
+Check `/fastify-web-gen`
 
 Install:
 
@@ -131,7 +139,7 @@ fastify.register(require('fastify-static'), {
 
 ### Template Views
 
-Check /fastify-web-gen
+Check `/fastify-web-gen`
 
 #### 1. Install 
 
@@ -191,6 +199,9 @@ module.exports = async(fastify, opts) => {
 ```
 ### Streaming Content
 
+Sample code: `/routes/stream/index.js`
+Access: http://localhost:3000/stream
+
 ```js
 'use strict';
 const fs = require('fs');
@@ -208,11 +219,79 @@ module.exports = async function (fastify, opts) {
 
 ### RESTful JSON Services
 
-Check model.js and /routes/rest/players
+Check `model.js` and `/routes/rest/players`
+
+### Consuming and Aggregating Services
+
+Use a request library such as `got`
+
+`npm i got`
+
+Usage
+
+```js
+const data = await got('http://localhost/sampleApi/1').json()
+console.log(data);
+```
+
+Check `/routes/consume-and-aggregate/index.js`
+### Proxying HTTP Requests
+
+#### 1. Proxying a url
+
+In fastify, a plugin `fastify-reply-from` can be used
+
+`npm i fastify-reply-from`
+
+Register:
+
+```js
+const replyFrom = require('fastify-reply-from')
+//...code redacted
+fastify.register(replyFrom)
+```
+
+The plugin makes it possible to use reply.from.
+
+Check: `/routes/proxy/index.js`
+
+Running:
+http://localhost:3000/proxy?proxyUrl=http://localhost:3000
+http://localhost:3000/proxy/upper?proxyUrl=http://localhost:3000
+
+#### 2. Proxying upstream (all routes)
+
+Use plugin `fastify-http-proxy`
+
+`npm i fastify-http-proxy`
+
+Code:
+
+```js
+'use strict';
+
+const proxy = require('fastify-http-proxy');
+module.exports = async function (fastify, opts) {
+  fastify.register(proxy, {
+    upstream: 'https://news.ycombinator.com/',
+    async preHandler(request, reply) {
+      if (request.query.token !== 'abc') {
+        throw fastify.httpErrors.unauthorized();
+      }
+    },
+  });
+};
+```
+
+Sample:
+
+Check `ch-8/my-proxy`
+
+Running: http://localhost:3000/?token=abc
 
 ### Route Validation 
 
-See chapter 9
+See `ch-9/labs-2`
 
 #### Post body schema validation
 Snippet

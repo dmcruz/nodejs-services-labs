@@ -4,6 +4,7 @@ const path = require('path');
 const AutoLoad = require('fastify-autoload');
 const pointOfView = require('point-of-view');
 const handlebars = require('handlebars');
+const replyFrom = require('fastify-reply-from');
 
 module.exports = async function (fastify, opts) {
   // Place here your custom code!
@@ -17,6 +18,8 @@ module.exports = async function (fastify, opts) {
     root: path.join(__dirname, 'views'),
     layout: 'layout.hbs',
   });
+
+  fastify.register(replyFrom);
 
   // Do not touch the following lines
 
